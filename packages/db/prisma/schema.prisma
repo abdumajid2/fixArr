@@ -1,0 +1,78 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql"; url = env("DATABASE_URL") }
+
+model User {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  phone      String?  @unique
+  name       String?
+  role       Role     @default(CLIENT)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  Master     Master?
+  Orders     Order[]
+}
+model Master {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  city      String
+  skills    String[]
+  rating    Float    @default(0)
+  priceHour Int      @default(0)
+  Orders    Order[]
+}
+model Shop {
+  id      String   @id @default(cuid())
+  name    String
+  address String?
+  apiKey  String?  @unique
+  Skus    Sku[]
+}
+model Sku {
+  id       String  @id @default(cuid())
+  sku      String  @unique
+  title    String
+  price    Int
+  shopId   String?
+  shop     Shop?   @relation(fields: [shopId], references: [id])
+  category String
+}
+model Issue {
+  code       String   @id
+  title      String
+  category   String
+  symptoms   String[]
+  recSkus    String[]
+  avgMinutes Int      @default(30)
+}
+model Session {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  detectedIssue String?
+  confidence    Float?
+  status        String   @default("OPEN")
+  createdAt     DateTime @default(now())
+}
+model Order {
+  id         String   @id @default(cuid())
+  clientId   String
+  client     User     @relation(fields: [clientId], references: [id])
+  masterId   String?
+  master     Master?  @relation(fields: [masterId], references: [id])
+  sessionId  String?
+  status     String   @default("NEW")
+  amount     Int      @default(0)
+  createdAt  DateTime @default(now())
+  Warranty   Warranty?
+}
+model Warranty {
+  id        String   @id @default(cuid())
+  orderId   String   @unique
+  order     Order    @relation(fields: [orderId], references: [id])
+  checksum  String
+  expiresAt DateTime
+  qrUrl     String?
+}
+enum Role { CLIENT MASTER SHOP ADMIN }

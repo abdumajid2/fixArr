@@ -1,0 +1,14 @@
+import { Router } from "express";
+const router = Router();
+router.post("/generate", (req, res) => {
+  const { issue } = req.body || {};
+  const base = [
+    { id: "s1", text: "Подготовьте место работы и освещение." },
+    { id: "s2", text: issue?.category === "electric" ? "ОБЕСТОЧЬТЕ линию (выключите автомат)." : "Перекройте воду.", caution: true },
+    { id: "s3", text: "Сделайте фото узла для сравнения «до/после»." },
+    { id: "s4", text: `Следуйте инструкциям по узлу: ${issue?.title || "Осмотр"}` },
+    { id: "s5", text: "Проверьте результат и соберите рабочее место." }
+  ];
+  res.json({ steps: base, caution: base.filter(s=>s.caution).map(()=> "Соблюдайте технику безопасности") });
+});
+export default router;

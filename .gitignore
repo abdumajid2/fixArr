@@ -1,0 +1,11 @@
+node_modules/
+.pnpm-store/
+.next/
+dist/
+build/
+.env
+.env.local
+.env.*.local
+.DS_Store
+packages/db/prisma/dev.db
+packages/db/prisma/dev.db-journal
