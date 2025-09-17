@@ -1,9 +1,9 @@
 {
   "name": "@fixar/web",
-  "version": "0.1.0",
   "private": true,
   "type": "module",
-  "scripts": { "dev":"next dev", "build":"next build", "start":"next start" },
+  "scripts": { "dev": "next dev", "build": "next build", "start": "next start" },
+  "engines": { "node": "20.x" },
   "dependencies": {
     "next": "15.5.3",
     "react": "18.3.1",
