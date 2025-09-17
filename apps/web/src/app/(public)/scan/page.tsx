@@ -29,19 +29,25 @@ export default function ScanPage() {
     ctx.drawImage(v, 0, 0, canvas.width, canvas.height);
     const dataUrl = canvas.toDataURL("image/jpeg", 0.7);
     try {
-      const res = await fetch(`${API}/vision/classify`, {
-        method: "POST", headers: { "Content-Type": "application/json" },
+      const res = await fetch(`/api/vision/classify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ image: dataUrl })
       });
       const json = await res.json();
       setIssue(json);
-    } catch (e:any) { setError(e?.message || "Ошибка классификации"); }
-    finally { setLoading(false); }
+    } catch (e:any) {
+      setError(e?.message || "Ошибка классификации");
+    } finally {
+      setLoading(false);
+    }
   };
+
   const openGuide = async () => {
     if (!issue?.issue) return;
-    const res = await fetch(`${API}/guide/generate`, {
-      method: "POST", headers: {"Content-Type":"application/json"},
+    const res = await fetch(`/api/guide/generate`, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
       body: JSON.stringify({ issue: issue.issue })
     });
     const data = await res.json();
