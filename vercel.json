@@ -1,9 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "npm i && npm run build -w apps/web",
-  "outputDirectory": "apps/web/.next",
-  "framework": "nextjs",
-  "env": {
-    "NEXT_PUBLIC_API_URL": "https://your-api.example.com"
-  }
+  "buildCommand": "npm i && npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs"
 }
+
